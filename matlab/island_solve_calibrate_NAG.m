@@ -74,31 +74,31 @@ disp(norm(xxx))
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is perferred approach, use NAG solver...
 
-nval = length(guess);
-diag_adjust = round(nval-1);
-
-tic
-[prices, fvec, diag, nfev,~,~,~,~,ifail] = c05qc(@fcn, log(guess), int64(diag_adjust),...
-   int64(diag_adjust), int64(1), ones(nval,1), int64(5),'user', params,'epsfcn', 10^-5,'xtol',10^-5);
-toc
-
-disp('')
-disp('')
-disp('Number of function evaluations')
-disp(nfev)
-disp('Error Warning')
-disp(ifail)
+% nval = length(guess);
+% diag_adjust = round(nval-1);
+% 
+% tic
+% [prices, fvec, diag, nfev,~,~,~,~,ifail] = c05qc(@fcn, log(guess), int64(diag_adjust),...
+%    int64(diag_adjust), int64(1), ones(nval,1), int64(5),'user', params,'epsfcn', 10^-5,'xtol',10^-5);
+% toc
+% 
+% disp('')
+% disp('')
+% disp('Number of function evaluations')
+% disp(nfev)
+% disp('Error Warning')
+% disp(ifail)
 
 %exit_flag = ifail;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is using Matlab's solver...
 
-% options = optimoptions('fsolve', 'Display','iter','MaxFunEvals',6000,'MaxIter',...
-%     1e2,'TolX',1e-6,'UseParallel',true,'Algorithm','trust-region-reflective','FiniteDifferenceType','central');
-% 
-% tic
-% [prices, ~, exit_flag] = fsolve(@(xxx) island_compute_soe(exp(xxx),params,0),log(guess),options);
-% toc
+options = optimoptions('fsolve', 'Display','iter','MaxFunEvals',6000,'MaxIter',...
+    1e2,'TolX',1e-6,'UseParallel',true,'Algorithm','trust-region-reflective','FiniteDifferenceType','central');
+
+tic
+[prices, ~, exit_flag] = fsolve(@(xxx) island_compute_soe(exp(xxx),params,0),log(guess),options);
+toc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Generate figures
 
